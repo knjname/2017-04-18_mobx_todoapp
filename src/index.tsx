@@ -38,13 +38,14 @@ class TodoStore {
 
 }
 
+@inject("windowSize")
 @inject("todoStore") @observer
-class TodoApp extends React.Component<{ todoStore?: TodoStore }, { currentTodo: string }> {
+class TodoApp extends React.Component<{ todoStore?: TodoStore, windowSize?: WindowSize }, { currentTodo: string }> {
 
     render() {
         return <div>
             <DevTools />
-            <h1>{this.props.todoStore.countOfDoneItems} / {this.props.todoStore.countOfTodos}</h1>
+            <h1>{this.props.todoStore.countOfDoneItems} / {this.props.todoStore.countOfTodos} in { this.props.windowSize.h } x { this.props.windowSize.w }</h1>
 
             <p>{JSON.stringify(this.props.todoStore)}</p>
 
@@ -77,4 +78,31 @@ class TodoApp extends React.Component<{ todoStore?: TodoStore }, { currentTodo: 
 
 const todoStore = new TodoStore()
 
-render(<Provider todoStore={todoStore} ><TodoApp /></Provider>, document.getElementById("app"));
+class WindowSize {
+    @observable w: number = 0;
+    @observable h: number = 0;
+
+    constructor() {
+        this.attachSize();
+    }
+
+    attachSize() {
+        this.w = window.innerWidth;
+        this.h = window.innerHeight;
+    }
+}
+
+let windowSize = new WindowSize();
+
+window.addEventListener("resize", () => windowSize.attachSize() );
+
+render(<Provider todoStore={todoStore} windowSize={windowSize} ><TodoApp /></Provider>, document.getElementById("app"));
+
+class X {
+    constructor () {
+        console.log("born", this);
+    }
+}
+
+let a: X = {};
+new X();
