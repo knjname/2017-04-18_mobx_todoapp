@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "target": "es6",
+        "moduleResolution": "node",
+        "skipLibCheck": true
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "include": [
+        "src"
+    ]
+}
